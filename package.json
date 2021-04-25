@@ -1,0 +1,19 @@
+{
+  "name": "essess",
+  "version": "2.0.0",
+  "description": "osu!ctb discord bot ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "color-thief-node": "^1.0.3",
+    "discord.js": "^12.5.3",
+    "mysql": "^2.18.1",
+    "node-cron": "^3.0.0",
+    "node-osu": "^2.2.1",
+    "nodemon": "^2.0.7"
+  }
+}
