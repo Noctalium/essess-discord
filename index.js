@@ -42,6 +42,9 @@ client.on('message', message => {
     // Commands
     if(command === 'ping') client.commands.get('ping').execute(message);
 
+    if(command === 'osuset') client.commands.get('osuset').execute(message, args);
+    if(command === 'profile' || command === 'p') client.commands.get('profile').execute(message, args);
+    if(command === 'recent' || command === 'rs') client.commands.get('recent').execute(message, args);
     if(command === '1miss') client.commands.get('1miss').execute(message, args);
 
     /* TO FIX

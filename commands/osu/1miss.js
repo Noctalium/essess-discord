@@ -1,5 +1,4 @@
 const sqlLib = require('../../lib/sqlLib');
-const utils = require('../../lib/utils');
 const osuApi = require('../../lib/osuApi');
 
 const { prefix } = require('../../config.json');
@@ -23,7 +22,7 @@ module.exports = {
 
         let user = await osuApi.getUser({u: username, m: 2});
         if(user.length == 0) {
-            return message.channel.send(':x: This user do not exist.')
+            return message.channel.send(':x: This user do not exist.');
         }
 
         let userBest = await osuApi.getUserBest({u: username, m: 2, limit: 100});
