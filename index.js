@@ -46,9 +46,10 @@ client.on('message', message => {
     if(command === 'profile' || command === 'p') client.commands.get('profile').execute(message, args);
     if(command === 'recent' || command === 'rs') client.commands.get('recent').execute(message, args);
     if(command === '1miss') client.commands.get('1miss').execute(message, args);
-
-    /* TO FIX
+    if(command === 'pp') client.commands.get('pp_calculator').execute(message, args);
     if(command === 'misscount' || command === 'mc') client.commands.get('misscount').execute(message, args);
+    
+    /* TO FIX
     if(command === 'simulator' || command === 'sm') client.commands.get('simulator').execute(message, args);
     */
 });

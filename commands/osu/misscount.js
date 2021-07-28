@@ -21,12 +21,19 @@ module.exports = {
         }
 
         let username = await sqlLib.getLinkedUser(message.author.id);
+        if(username == null) {
+            return message.channel.send(`:x: Please link your osu! profile first with \`${prefix}osuset (username)\`.`);
+        }
 
         if(args.length == 1) {
             username = args[0];
         }
 
         let user = await osuApi.getUser({u: username, m: 2});
+        if(user.length == 0) {
+            return message.channel.send(':x: This user do not exist.');
+        }
+
         let userBest = await osuApi.getUserBest({u: username, m: 2, limit: 100});
 
         let missArray = [];
@@ -41,15 +48,22 @@ module.exports = {
         let avgMiss = (missArray.reduce((a,b) => (a+b)) / 100);
         let avgDrop = (dropmissArray.reduce((a,b) => (a+b)) / 100);
 
-        let msg = `**${user.name}**:
-- Out of the whole top 100 plays:
-Avg. Miss: ${avgMiss.toFixed(2)}
-Avg. Drop: ${avgDrop.toFixed(2)}
-- Out of the ${missArray.length} non-fc plays:
-Avg. Miss: ${missArray.reduce((a,b) => (a+b)) / missArray.length}
-Avg. Drop: ${dropmissArray.reduce((a,b) => (a+b)) / dropmissArray.length}
-`;
+        let profilePic = `http://s.ppy.sh/a/${user.id}`;
 
-        return message.channel.send(msg);
+        let embed = new Discord.MessageEmbed()
+            .setTitle(`Average drop/miss for ${user.name}`)
+            .setURL(`https://osu.ppy.sh/users/${user.id}`)
+            .setThumbnail(profilePic)
+            .setColor(await getColorFromURL(profilePic))
+            .setDescription(`
+            > Out of the whole top 100 plays:
+                **Avg. Miss:** ${avgMiss.toFixed(2)}
+                **Avg. Drop:** ${avgDrop.toFixed(2)}
+            > Out of the ${missArray.length} non-fc plays:
+                **Avg. Miss:** ${missArray.reduce((a,b) => (a+b)) / missArray.length}
+                **Avg. Drop:** ${dropmissArray.reduce((a,b) => (a+b)) / dropmissArray.length}
+            `)
+
+        return message.channel.send(embed);
     }
 }

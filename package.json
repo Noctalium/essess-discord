@@ -9,11 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "color-thief-node": "^1.0.3",
+    "color-thief-node": "^1.0.4",
     "discord.js": "^12.5.3",
     "mysql": "^2.18.1",
     "node-cron": "^3.0.0",
     "node-osu": "^2.2.1",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "request": "^2.88.2",
+    "url-exist": "^3.0.0"
   }
 }

@@ -36,7 +36,7 @@ module.exports = {
         }
 
         let msg = `**${user.name}** has **${oneMissCount}x** 1miss play(s) in his Top PP plays.`;
-        return message.channel.send(msg)
+        return message.channel.send(msg);
     }
 }
 
