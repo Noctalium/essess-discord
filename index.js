@@ -53,6 +53,7 @@ client.on('message', message => {
     if(command === 'pp') client.commands.get('pp_calculator').execute(message, args);
     if(command === 'misscount' || command === 'mc') client.commands.get('misscount').execute(message, args);
     if(command === 'accuracy' || command === 'acc') client.commands.get('accuracy').execute(message, args);
+    if(command === 'compare' || command === 'c') client.commands.get('compare').execute(message, args);
     
     /* TO FIX
     if(command === 'simulator' || command === 'sm') client.commands.get('simulator').execute(message, args);
