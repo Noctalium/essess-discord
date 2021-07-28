@@ -45,6 +45,7 @@ client.on('message', message => {
 
     // Commands
     if(command === 'ping') client.commands.get('ping').execute(message);
+    if(command === 'roll') client.commands.get('roll').execute(message, args);
 
     if(command === 'osuset') client.commands.get('osuset').execute(message, args);
     if(command === 'profile' || command === 'p') client.commands.get('profile').execute(message, args);
