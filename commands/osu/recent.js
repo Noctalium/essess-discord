@@ -38,17 +38,7 @@ module.exports = {
         let mods = userRecent[0].raw_mods & 338;
         let beatmap = await osuApi.getBeatmaps({b: userRecent[0].beatmapId, m: 2, a:1, mods: mods});
 
-        // Fill the serverInfo db table
-        if(beatmap[0].approvalStatus == 'Ranked' || beatmap[0].approvalStatus == 'Loved' || beatmap[0].approvalStatus == 'Approved') {
-            let currentStoredId = await sqlLib.getServerInfo(message.channel.id);
-            if(currentStoredId != null) {
-                // Update id
-                await sqlLib.updateServerInfo(beatmap[0].id, message.guild.id, message.channel.id);
-            } else {
-                // Insert id
-                await sqlLib.addServerInfo(beatmap[0].id, message.guild.id, message.channel.id);
-            }
-        }
+        let si = await utils.fillServerInfoDb(beatmap, message);
 
         let embed = await generateEmbed(userRecent[0], beatmap[0], user);
         return message.channel.send(embed);
