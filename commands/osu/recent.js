@@ -3,6 +3,8 @@ const osuApi = require('../../lib/osuApi');
 const utils = require('../../lib/utils');
 const Discord = require('discord.js');
 
+const fetch = require('node-fetch');
+
 const { prefix } = require('../../config.json');
 const { getColorFromURL } = require('color-thief-node');
 
@@ -43,7 +45,10 @@ module.exports = {
 
 async function generateEmbed(score, beatmap, user) {
     let beatmapThumbnailUrl = `https://b.ppy.sh/thumb/${beatmap.beatmapSetId}l.jpg`; 
-    let color = await getColorFromURL(beatmapThumbnailUrl);
+
+    const resp = await fetch(beatmapThumbnailUrl, {
+        method: 'HEAD'
+    });
 
     let rankEmote = await utils.getRankEmotes(score.rank);
     let enabledMods = await utils.getMods(score.raw_mods);
@@ -55,8 +60,6 @@ async function generateEmbed(score, beatmap, user) {
     let playDate = new Date(score.raw_date);
 
     let embed = new Discord.MessageEmbed()
-        .setThumbnail(beatmapThumbnailUrl)
-        .setColor(color)
         .setAuthor(
             `${beatmap.title} [${beatmap.version}] + ${enabledMods} [${Math.round(beatmap.difficulty.rating*100)/100}★]`,
             `http://s.ppy.sh/a/${user.id}`,
@@ -66,7 +69,18 @@ async function generateEmbed(score, beatmap, user) {
             **· ${rankEmote} - ${ppValue}pp -** ${Math.round(accuracy*100)/100}% - Miss: ${score.counts.miss}, Dropmiss: ${score.counts.katu}
             **·** ${score.score} - ${score.maxCombo}/${beatmap.maxCombo} - [${score.counts['300']}/${score.counts['100']}/${score.counts['50']}/${score.counts.miss}]
             `)
-        .setFooter(`${await utils.secToDhms((now - playDate)/1000)} ago | Beatmap by ${beatmap.creator} | ID: ${beatmap.id}`)
+        .setFooter(`${await utils.secToDhms((now - playDate)/1000)} ago | Beatmap by ${beatmap.creator} | ID: ${beatmap.id}`);
     
+        // Some beatmap thumbail are, somehow, under protection and can't be used, so we just don't add the thumbnail
+        if(resp.ok == true) {
+            let color = await getColorFromURL(beatmapThumbnailUrl);
+            
+            embed.setThumbnail(beatmapThumbnailUrl)
+                 .setColor(color);  
+        }
+        else {
+            embed.setColor('#71368A')
+        }
+
     return embed;
 }

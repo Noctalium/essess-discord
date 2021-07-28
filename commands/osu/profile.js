@@ -2,7 +2,9 @@ const sqlLib = require('../../lib/sqlLib');
 const osuApi = require('../../lib/osuApi');
 const utils = require('../../lib/utils');
 const Discord = require('discord.js');
+
 const fetch = require('node-fetch');
+
 const { prefix } = require('../../config.json');
 const { getColorFromURL } = require('color-thief-node');
 
@@ -35,7 +37,6 @@ module.exports = {
 }
 
 async function generateEmbed(user) {
-
     let profilePic = `http://s.ppy.sh/a/${user.id}`;
 
     const resp = await fetch(profilePic, {
