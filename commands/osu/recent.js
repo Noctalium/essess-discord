@@ -59,10 +59,12 @@ async function generateEmbed(score, beatmap, user) {
     let now = Date.now()
     let playDate = new Date(score.raw_date);
 
+    let profilePic = await utils.getProfilePictureUrl(user.id);
+
     let embed = new Discord.MessageEmbed()
         .setAuthor(
             `${beatmap.title} [${beatmap.version}] + ${enabledMods} [${Math.round(beatmap.difficulty.rating*100)/100}★]`,
-            `http://s.ppy.sh/a/${user.id}`,
+            `${profilePic}`,
             `https://osu.ppy.sh/beatmapsets/${beatmap.beatmapSetId}#fruits/${beatmap.id}`
         )
         .setDescription(`

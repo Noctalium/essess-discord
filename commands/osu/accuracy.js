@@ -23,7 +23,7 @@ module.exports = {
                     filter = args[i+1]; 
                 }
                 else {
-                    username = args[i];
+                    if(args[i-1] != '-p') username = args[i];
                 }
             }
         }
@@ -33,47 +33,108 @@ module.exports = {
             return message.channel.send(':x: This user do not exist.');
         }
         
-        let embed = 0
+        let topScores = await osuApi.getUserBest({u: user.id, m:2, limit: 100});
+        if(topScores.length == 0) {
+            return message.channel.send(':x: This user do not have any plays in Catch The Beat!');
+        }
 
+        let formattedScores = await formatScores(topScores);
+
+        let globalAcc = await utils.getGlobalAcc(formattedScores);
+
+        let scoresDiff = await getAllAccDifferences(formattedScores, globalAcc);
+
+        let embed = await generateEmbed(scoresDiff, topScores, user, formattedScores, filter);
+        return message.channel.send(embed);
     }
 }
 
 async function generateEmbed(scoresDiff, topScores, user, cAccScores, offset = 0) {
+    let profilePic = await utils.getProfilePictureUrl(user.id);
+    let color = await getColorFromURL(profilePic);
+
+    // offset = page that user want to see (5 scores per pages)
+
+    if(offset > 0) {
+        for(let i = 0; i < (offset - 1) * 5; i++) {
+            scoresDiff.shift();
+        } 
+    }
+
+    // In case there is less than 5 scores to show on the given page
+    let scorePerPage = scoresDiff.length >= 5 ? 5 : scoresDiff.length;
+    let rankNumber = (offset - 1) * 5;
+
+    let embed = new Discord.MessageEmbed()
+        .setThumbnail(profilePic)
+        .setColor(color);
+
     
+    let content = `**Current global accuracy:** ${Math.round(user.accuracy*10000) / 10000}%
+    `;
+
+    // Check if user already have an SS everywhere
+    if(scoresDiff.length == 0 && parseInt(user.accuracy) == 100) {
+        let tmp = `
+        **Congratulation, ${user.name} have nothing to fix, they SS'd every plays in their top 100 scores !**
+        `;
+
+        content += tmp;
+    }
+
+    for(let i = 0; i < scorePerPage; i++) {
+        rankNumber = rankNumber + 1;
+
+        let beatmap = await osuApi.getBeatmaps({b: scoresDiff[i].map, m: 2, a:1});
+        let beatmapUrl = `https://osu.ppy.sh/beatmapsets/${beatmap.beatmapSetId}#fruits/${beatmap.id}`;
+
+        let actualScore = cAccScores.find(el => el.id == beatmap[0].id);
+        let actualDropletMissNumber = topScores.find(el => el.beatmapId == beatmap[0].id).counts.katu;
+        let actualMissNumber = topScores.find(el => el.beatmapId == beatmap[0].id).counts.miss;
+        let actualPlayMods = topScores.find(el => el.beatmapId == beatmap[0].id).raw_mods;
+
+        let accuracy = actualScore.accuracy;
+        let newGlobalAcc = scoresDiff[i].newGlobalAcc;
+
+        let tmp = `
+        **${rankNumber}. [${beatmap[0].title} [${beatmap[0].version}]](${beatmapUrl})** [${Math.round(beatmap[0].difficulty.rating*100)/100}★] + **${await utils.getMods(actualPlayMods)}**
+        **-** Actual acc: ${Math.round(accuracy * 100) / 100}% | ${actualDropletMissNumber} drop(s) miss(es), ${actualMissNumber} miss(es).
+        ** ► Global acc after SS: ${Math.round(newGlobalAcc * 10000) / 10000}%**
+        `;
+
+        content += tmp;
+    }
+
+    embed.setDescription(content)
+         .setFooter(`Page ${offset} | use '??acc [username] -p {number}' to see the other page`);
+
+    return embed;
 }
 
 async function formatScores(scores) {
-
     let formatScores = [];
 
     for(let i = 0; i < scores.length; i++) {
         let score = scores[i];
 
-        let accuracy = utils.getAccuracy(score.count300, score.count100, score.count50, score.countmiss, score.countkatu);
-
-        formatScores.push({id: score.beatmap_id, accuracy: accuracy});
+        let accuracy = await utils.getAccuracy(score.counts['300'], score.counts['100'], score.counts['50'], score.counts.miss, score.counts.katu);
+    
+        formatScores.push({id: score.beatmapId, accuracy: accuracy});
     }
-
     return formatScores;
 }
 
 async function getAccDiff(scores, index, gAcc) {
     let scoresCopy = JSON.parse(JSON.stringify(scores));
-    scoresCopy[index].accuracy = 1;
 
-    // Recalculate PP value and reset the scoresCopy
-    let newPPValue = 0;
-
+    scoresCopy[index].accuracy = 100;
 
     let newGlobalAcc = await utils.getGlobalAcc(scoresCopy);
-
     return {diff: newGlobalAcc - gAcc, newGlobalAcc: newGlobalAcc};
 }
 
-async function getAllAccDifferences(scores) {
+async function getAllAccDifferences(scores, gAcc) {
     let accDiffs = [];
-
-    let gAcc = await utils.getGlobalAcc(scores);
 
     for(let i = 0; i < scores.length; i++) {
         let accD = await getAccDiff(scores, i, gAcc);

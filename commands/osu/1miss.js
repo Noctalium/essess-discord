@@ -35,7 +35,12 @@ module.exports = {
             }
         }
 
-        let msg = `**${user.name}** has **${oneMissCount}x** 1miss play(s) in his Top PP plays.`;
+        if(oneMissCount == 0) {
+            msg = `**${user.name}** do not have any 1 miss play in his Top PP plays.`
+        } else {
+            msg = `**${user.name}** has **${oneMissCount}x** 1miss play(s) in his Top PP plays.`;
+        }
+
         return message.channel.send(msg);
     }
 }

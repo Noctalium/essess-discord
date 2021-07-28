@@ -1,15 +1,10 @@
-const Discord = require('discord.js');
-const { getColorFromURL } = require('color-thief-node');
 const sqlLib = require('../../lib/sqlLib');
+const osuApi = require('../../lib/osuApi');
+const utils = require('../../lib/utils');
+const Discord = require('discord.js');
 
-const { osuApiToken } = require('../../config.json');
-
-const osu = require('node-osu');
-const osuApi = new osu.Api(osuApiToken, {
-    notFoundAsError: false,
-	completeScores: false,
-	parseNumeric: false
-});
+const { prefix } = require('../../config.json');
+const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'misscount',
@@ -35,6 +30,9 @@ module.exports = {
         }
 
         let userBest = await osuApi.getUserBest({u: username, m: 2, limit: 100});
+        if(userBest.length == 0) {
+            return message.channel.send(':x: This user do not have any Catch The Beat scores.');
+        }
 
         let missArray = [];
         let dropmissArray = [];
@@ -48,7 +46,7 @@ module.exports = {
         let avgMiss = (missArray.reduce((a,b) => (a+b)) / 100);
         let avgDrop = (dropmissArray.reduce((a,b) => (a+b)) / 100);
 
-        let profilePic = `http://s.ppy.sh/a/${user.id}`;
+        let profilePic = await utils.getProfilePictureUrl(user.id);
 
         let embed = new Discord.MessageEmbed()
             .setTitle(`Average drop/miss for ${user.name}`)
@@ -56,12 +54,13 @@ module.exports = {
             .setThumbnail(profilePic)
             .setColor(await getColorFromURL(profilePic))
             .setDescription(`
-            > Out of the whole top 100 plays:
+            >> Out of the whole top ${userBest.length} plays:
                 **Avg. Miss:** ${avgMiss.toFixed(2)}
                 **Avg. Drop:** ${avgDrop.toFixed(2)}
-            > Out of the ${missArray.length} non-fc plays:
-                **Avg. Miss:** ${missArray.reduce((a,b) => (a+b)) / missArray.length}
-                **Avg. Drop:** ${dropmissArray.reduce((a,b) => (a+b)) / dropmissArray.length}
+
+            >> Out of the **${missArray.length} non-fc** plays:
+                **Avg. Miss:** ${(missArray.reduce((a,b) => (a+b)) / missArray.length).toFixed(2)}
+                **Avg. Drop:** ${(dropmissArray.reduce((a,b) => (a+b)) / dropmissArray.length).toFixed(2)}
             `)
 
         return message.channel.send(embed);

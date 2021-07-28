@@ -18,6 +18,10 @@ const commands = {
     otherCommands: [
         fs.readdirSync('./commands/other').filter(file => file.endsWith('.js')),
         './commands/other/'
+    ],
+    cronCommands: [
+        fs.readdirSync('./commands/cron').filter(file => file.endsWith('.js')),
+        '/commands/cron/'
     ]
 };
 
@@ -48,6 +52,7 @@ client.on('message', message => {
     if(command === '1miss') client.commands.get('1miss').execute(message, args);
     if(command === 'pp') client.commands.get('pp_calculator').execute(message, args);
     if(command === 'misscount' || command === 'mc') client.commands.get('misscount').execute(message, args);
+    if(command === 'accuracy' || command === 'acc') client.commands.get('accuracy').execute(message, args);
     
     /* TO FIX
     if(command === 'simulator' || command === 'sm') client.commands.get('simulator').execute(message, args);

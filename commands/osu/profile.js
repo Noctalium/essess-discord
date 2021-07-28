@@ -3,8 +3,6 @@ const osuApi = require('../../lib/osuApi');
 const utils = require('../../lib/utils');
 const Discord = require('discord.js');
 
-const fetch = require('node-fetch');
-
 const { prefix } = require('../../config.json');
 const { getColorFromURL } = require('color-thief-node');
 
@@ -37,14 +35,7 @@ module.exports = {
 }
 
 async function generateEmbed(user) {
-    let profilePic = `http://s.ppy.sh/a/${user.id}`;
-
-    const resp = await fetch(profilePic, {
-        method: 'HEAD'
-    });
-
-    if(resp.ok == false) profilePic = 'https://osu.ppy.sh/images/layout/avatar-guest.png';
-
+    let profilePic = await utils.getProfilePictureUrl(user.id)
     let color = await getColorFromURL(profilePic);
 
     let embed = new Discord.MessageEmbed()
