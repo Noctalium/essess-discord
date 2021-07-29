@@ -2,10 +2,9 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 const fs = require('fs');
-const mysql = require('mysql');
 const cron = require('node-cron');
 
-const { prefix, apiurl, osuApiToken, token, ownerId, dbhost, dbuser, dbpass, dbase } = require('./config.json');
+const { prefix, token, ownerId} = require('./config.json');
 const con = require('./lib/mysqlConn');
 const sqlLib = require('./lib/sqlLib');
 const osuApi = require('./lib/osuApi');
@@ -64,7 +63,11 @@ client.on('message', message => {
     if(command === 'coolest') client.commands.get('joke_coolest').execute(message, args);
     if(command === 'image' || command === 'envision' || command === 'imagematerial') client.commands.get('joke_image_material').execute(message, args);
     if(command === 'bison') client.commands.get('joke_bison_charge').execute(message, args);
-    
+
+    if(message.author.id == ownerId) {
+        if(command === 'migrate') client.commands.get('tracking_migration').execute(message, args);
+    }
+
     /* TO FIX
     if(command === 'simulator' || command === 'sm') client.commands.get('simulator').execute(message, args);
     */
