@@ -46,8 +46,8 @@ module.exports = {
                     }
                 }
             }
-            await sqlLib.updateTrackedUser(user, trackedUser.channels);
         }
+        await sqlLib.updateTrackedUser(user, trackedUser.channels);
     }
 }
 

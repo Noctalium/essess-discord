@@ -105,7 +105,7 @@ cron.schedule('*/5 * * * *', async () => {
 });
 
 //------- PP TRACKING CRON -------//
-cron.schedule('*/1 * * * *', async () => {
+cron.schedule('*/5 * * * *', async () => {
     console.log("Tracking CRON");
     let trackedUsers = await sqlLib.getAllTrackedUsers();
     console.log(trackedUsers.length);
