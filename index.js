@@ -30,6 +30,7 @@ for(const [k, val] of Object.entries(commands)) {
 }
     
 client.once('ready', () => {
+    client.user.setActivity('v2.0.0 | ??changelog', { type: 'PLAYING' })
     console.log('Ready');
 });
 
@@ -43,6 +44,8 @@ client.on('message', message => {
     // Commands
     if(command === 'ping') client.commands.get('ping').execute(message);
     if(command === 'roll') client.commands.get('roll').execute(message, args);
+    if(command === 'changelog') client.commands.get('changelog').execute(message, args);
+    if(command === 'help') client.commands.get('help').execute(message, args, client.commands);
 
     if(command === 'osuset') client.commands.get('osuset').execute(message, args);
     if(command === 'profile' || command === 'p') client.commands.get('profile').execute(message, args);
