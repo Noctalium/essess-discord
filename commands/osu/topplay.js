@@ -52,18 +52,27 @@ module.exports = {
 
             sortedTopPlays = topScores.sort((a, b) => new Date(b.raw_date) - new Date(a.raw_date));
             topScores = sortedTopPlays.slice(0, 5);
-        } else {
-            topScores = topScores.slice(0, 5);
         }
 
         let embed = await generateEmbed(user, topScores, recentFilter);
-        return message.channel.send(embed);
+        return message.channel.send(embed)
+            .then(async sentMessage => {
+                if(!recentFilter) {
+                    await sentMessage.react("◀️")
+                    await sentMessage.react("▶️")
+                    msgReaction(message, sentMessage, user, topScores);
+                }
+            });
     }
 }
 
-async function generateEmbed(user, topPlays, recentFilter) {
+async function generateEmbed(user, topScores, recentFilter, offset = 1) {
     let profilePic = await utils.getProfilePictureUrl(user.id);
     let color = await getColorFromURL(profilePic);
+
+    let rankNumber = (offset - 1) * 5;
+
+    topPlays = topScores.slice(rankNumber, rankNumber + 5);
 
     let title = ``;
 
@@ -100,15 +109,15 @@ async function generateEmbed(user, topPlays, recentFilter) {
         }
 
         if(recentFilter) {
-            nbScore = score.index;
+            rankNumber = score.index;
         }
         else {
-            nbScore = i+1;
+            rankNumber = rankNumber + 1;
         }
 
         let tmp = `
-        **${nbScore}. [${beatmap.title} [${beatmap.version}]](${beatmapUrl})** [${Math.round(beatmap.difficulty.rating*100)/100}★] ${enabledMods}
-        - ${rankEmote} ▸ **${Math.round((score.pp)*100)/100}pp** ▸ ${accuracy} | ${score.raw_date.substring(0,10)}
+        **${rankNumber}. [${beatmap.title} [${beatmap.version}]](${beatmapUrl})** [${Math.round(beatmap.difficulty.rating*100)/100}★] ${enabledMods}
+        - ${rankEmote} ▸ **${Math.round((score.pp)*100)/100}pp** ▸ ${Math.round((accuracy)*100)/100} | ${score.raw_date.substring(0,10)}
         - ${score.score} ▸ ${maxCombo} | Miss: ${score.counts.miss}, Dropmiss: ${score.counts.katu}
         `;
 
@@ -120,5 +129,58 @@ async function generateEmbed(user, topPlays, recentFilter) {
     .setColor(color)
     .setTitle(title)
     .setURL(`https://osu.ppy.sh/users/${user.id}`)
+    .setFooter(`Page ${offset}`)
     .setDescription(content);
+}
+
+function msgReaction(message, sentMessage, user, topScores, offset = 1) {
+    const emoteList = ['◀️', '▶️'];
+
+    // Delete all reactions after 2min
+    setTimeout(() => {
+        sentMessage.reactions.removeAll();
+    }, 120000);
+
+    const filter = (reaction, user) => {
+        return message.author.id === user.id && emoteList.includes(reaction.emoji.name)
+    }
+
+    const collector = sentMessage.createReactionCollector(filter, {time: 60000, dispose: true});
+
+    let lastReaction;
+    let timeout;
+
+    let refresh = (reaction, usr) => {
+        let now = Date.now();
+        if(lastReaction != 'undefined' && (lastReaction - now) < 1000) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(async () => {
+            for(let r of sentMessage.reactions.cache) {
+                if(r && r[1] && r[1].count > 1) {
+                    // Min page : 0
+                    if(r[1].emoji.name == '◀️') {
+                        // Previous page
+                        if(offset > 1) offset = offset - 1;
+                    }
+                    if(r[1].emoji.name == '▶️' || (r[1].emoji.name == '◀️' && r[1].emoji.name == '▶️')) {
+                        // Next page
+                        if(offset < 20) offset = offset + 1;
+                    }
+                }
+            }
+            let userReactions = sentMessage.reactions.cache.filter(reac => reac.users.cache.has(message.author.id));
+            try {
+                for(const react of userReactions.values()) {
+                    await react.users.remove(message.author.id);
+                }
+            } catch (err) {
+                console.log('error');
+            }
+            let embed = await generateEmbed(user, topScores, false, offset);
+            sentMessage.edit(embed);
+        }, 1000);
+    }
+
+    collector.on('collect', refresh);
 }
