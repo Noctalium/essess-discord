@@ -17,6 +17,8 @@ module.exports = {
 
         **▸** Fixed bug where, sometimes, randomly, commands didn't worked at all (blame peppy on this one)
 
+        **▸** Added new difficulty colors
+
         **▸** Optimized the code, to prepare something else big (soontm) 👀
 
         **->** To avoid useless spam, the \`${prefix}track (username)\` command do not allow players with less than **3000pp** to be tracked
