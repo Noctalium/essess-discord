@@ -108,10 +108,8 @@ cron.schedule('*/5 * * * *', async () => {
 cron.schedule('*/5 * * * *', async () => {
     console.log("Tracking CRON");
     let trackedUsers = await sqlLib.getAllTrackedUsers();
-    console.log(trackedUsers.length);
     if(trackedUsers != null) {
         for(const user of trackedUsers) {
-            console.log(user.id);
             await client.commands.get('pp_tracking_msg').execute(user, client);
         }
     }
