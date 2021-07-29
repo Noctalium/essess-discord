@@ -82,6 +82,7 @@ client.on('message', message => {
 
 //------- MAPFEED CRON -------//
 cron.schedule('*/5 * * * *', async () => {
+    console.log("Mapfeed CRON");
     let mapfeedChannels = await sqlLib.getAllMapfeedChannels();
 
     if(mapfeedChannels != null) {
@@ -105,6 +106,7 @@ cron.schedule('*/5 * * * *', async () => {
 
 //------- PP TRACKING CRON -------//
 cron.schedule('*/5 * * * *', async () => {
+    console.log("Tracking CRON");
     let trackedUsers = await sqlLib.getAllTrackedUsers();
 
     if(trackedUsers != null) {
