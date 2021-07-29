@@ -3,8 +3,6 @@ const osuApi = require('../../lib/osuApi');
 const utils = require('../../lib/utils');
 const Discord = require('discord.js');
 
-const fetch = require('node-fetch');
-
 const { prefix } = require('../../config.json');
 const { getColorFromURL } = require('color-thief-node');
 
