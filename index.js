@@ -7,6 +7,8 @@ const cron = require('node-cron');
 
 const { prefix, apiurl, osuApiToken, token, ownerId, dbhost, dbuser, dbpass, dbase } = require('./config.json');
 const con = require('./lib/mysqlConn');
+const sqlLib = require('./lib/sqlLib');
+const osuApi = require('./lib/osuApi');
 
 client.commands = new Discord.Collection();
 
@@ -18,10 +20,6 @@ const commands = {
     otherCommands: [
         fs.readdirSync('./commands/other').filter(file => file.endsWith('.js')),
         './commands/other/'
-    ],
-    cronCommands: [
-        fs.readdirSync('./commands/cron').filter(file => file.endsWith('.js')),
-        '/commands/cron/'
     ]
 };
 
@@ -57,10 +55,40 @@ client.on('message', message => {
     if(command === 'compare' || command === 'c') client.commands.get('compare').execute(message, args);
     if(command === 'score' || command === 's' || command === 'sc') client.commands.get('score').execute(message, args);
     if(command === 'topplay' || command === 'top' || command === 'ctbtop') client.commands.get('topplay').execute(message, args);
+
+    if(command === 'mapfeed') client.commands.get('mapfeed').execute(message, args);
     
     /* TO FIX
     if(command === 'simulator' || command === 'sm') client.commands.get('simulator').execute(message, args);
     */
 });
+
+
+// Cron job
+// */5 * * * * -> 5min
+
+cron.schedule('*/5 * * * *', async () => {
+    // MAPFEED
+    let mapfeedChannels = await sqlLib.getAllMapfeedChannels();
+
+    if(mapfeedChannels != null) {
+        let lastDateCheck = new Date(await sqlLib.getLastMapfeedTime()).toISOString().slice(0, 19).replace('T', ' ');
+
+        let maps = await osuApi.getBeatmaps({ m:2, since: lastDateCheck});
+
+        for(const channel of mapfeedChannels) {
+            let chan = client.channels.cache.get(channel.channel_id);
+
+            if(typeof chan === 'undefined') {
+                await sqlLib.deleteMapfeedChannel(channel.channel_id);
+            }
+            else {
+                await client.commands.get('mapfeed_msg').execute(chan, maps, channel.channel_id);
+            }
+        }
+    }
+    await sqlLib.updateMapfeedTime();
+});
+
 
 client.login(token);
