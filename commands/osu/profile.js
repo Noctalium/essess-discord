@@ -8,7 +8,7 @@ const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'profile',
-    description: '`??profile [username]`, `??p [username]` - Show user\'s ctb profile.',
+    description: `\`${prefix}profile [username]\`, \`${prefix}p [username]\` - Show user's osu!ctb profile`,
     async execute(message, args) {
         if(args.length > 1) {
             return message.channel.send(':x: Please only enter 1 username.');

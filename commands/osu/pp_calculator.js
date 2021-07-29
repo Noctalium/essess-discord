@@ -8,7 +8,7 @@ const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'pp_calculator',
-    description: '`??pp {beatmap link}` | `??pp {beatmap ID}` - Show pp value of the given beatmap.',
+    description: `\`${prefix}pp {beatmap link / id}\` - Show the pp value of the given beatmap.`,
     async execute(message, args){
         if(args.length == 0 || args.length > 1) {
             return message.channel.send(':x: Please enter use `??pp {beatmap link}` or `??pp {beatmap ID}`')

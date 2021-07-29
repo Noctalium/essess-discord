@@ -8,7 +8,7 @@ const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'misscount',
-    description: 'Count the number of chokes you have in your top 100 pp play.',
+    description: `\`${prefix}misscount [username]\` - Count user's average miss and dropmiss in their top 100 pp plays.`,
     async execute(message, args) {
 
         if(args.length >= 2) {

@@ -5,7 +5,7 @@ const { prefix } = require('../../config.json');
 
 module.exports = {
     name: '1miss',
-    description: '',
+    description: `\`${prefix}1miss [username]\` - Count the number of 1miss play in user's top 100 pp plays.`,
     async execute(message, args) {
         if(args.length > 1) {
             return message.channel.send(':x: Please only enter 1 username.');

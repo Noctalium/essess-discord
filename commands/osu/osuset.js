@@ -5,7 +5,7 @@ const { prefix } = require('../../config.json');
 
 module.exports = {
     name: 'osuset',
-    description: '`??osuset {username}` - Link your discord account with your osu! account.',
+    description: `\`${prefix}osuset {username}\` - Link your discord account with your osu! account.`,
     async execute(message, args) {
         if(args.length == 0 || args.length > 1) {
             return message.channel.send(`:x: Please use \`${prefix}osuset (username)\`.`);

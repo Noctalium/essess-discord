@@ -1,6 +1,8 @@
+const { prefix } = require('../../config.json');
+
 module.exports = {
     name: 'roll',
-    description: 'roll command',
+    description: `\`${prefix}roll [number]\` - Roll a random number between 0 and the given number (default is 100).`,
     execute(message, args) {
         let maxValue = 100;
 

@@ -10,7 +10,7 @@ const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'recent',
-    description: '`??recent [username]`, `??rs [username]` - Show user\'s ctb profile.',
+    description: `\`${prefix}recent [username]\`, \`${prefix}rs [username]\` - Show user's most recent play (non-scorev2)`,
     async execute(message, args) {
         if(args.length > 1) {
             return message.channel.send(':x: Please only enter 1 username.');

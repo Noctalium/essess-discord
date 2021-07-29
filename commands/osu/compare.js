@@ -10,7 +10,7 @@ const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'compare',
-    description: '`??compare [username]`, `??c [username]` - Check username\'s scores on the last beatmap displayed with the `??recent` command.',
+    description: `\`${prefix}compare [username]\`, \`${prefix}c [username]\` - Compare user's scores on the last beatmap displayed by Essess.`,
     async execute(message, args) {
         if(args.length > 1) {
             return message.channel.send(':x: Please only enter 1 username.');

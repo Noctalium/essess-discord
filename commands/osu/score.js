@@ -10,7 +10,7 @@ const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'score',
-    description: '`??score [username] {beatmap id/link}`, `??s [username] {beatmap id/link}` - Show user\'s scores on the given beatmap.',
+    description: `\`${prefix}score [username] {beatmap link / id}\`, \`${prefix}s [username] {beatmap link / id}\` - Show user's scores on the given beatmap.`,
     async execute(message, args) {
         if(args.length > 2 || args.length == 0) {
             return message.channel.send(`:x: Please use \`${prefix}score [username] {beatmap id/link}\``);

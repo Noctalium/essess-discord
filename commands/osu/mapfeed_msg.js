@@ -8,7 +8,7 @@ const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'mapfeed_msg',
-    description: '',
+    description: 'nop',
     async execute(channel, maps, channel_id = 0) {
         let beatmapSets = [];
 

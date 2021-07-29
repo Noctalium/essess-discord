@@ -8,7 +8,7 @@ const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'topplay',
-    description: '`??top [username]`, `??ctbtop [username]` - Show user\'s best pp plays.',
+    description: `\`${prefix}top [username]\`, \`${prefix}ctbtop [username]\` - Show user's top pp plays.`,
     async execute(message, args) {
         if(args.length > 2) {
             return message.channel.send(':x: Wrong synthax, please use `??top [username] (-recent)`.');

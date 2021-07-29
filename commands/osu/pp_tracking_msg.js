@@ -9,7 +9,7 @@ const sqlLib = require('../../lib/sqlLib');
 
 module.exports = {
     name: 'pp_tracking_msg',
-    description: '',
+    description: 'no',
     async execute(trackedUser, client) {
 
         let user = await osuApi.getUser({u: trackedUser.user_id, m: 2});

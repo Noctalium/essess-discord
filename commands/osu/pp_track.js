@@ -5,7 +5,7 @@ const { prefix } = require('../../config.json');
 
 module.exports = {
     name: 'pp_track',
-    description: '`??track {username}` - Track user\'s new Top 100 pp plays in the channel.',
+    description: `\`${prefix}track {username}\` - (Server admin only) Track user's new top pp plays in the channel.`,
     async execute(message, args) {
         if(!message.member.hasPermission('ADMINISTRATOR')) {
             return message.channel.send(':x: You don\'t have the permissions to do this.')

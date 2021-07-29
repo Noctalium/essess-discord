@@ -8,7 +8,7 @@ const { getColorFromURL } = require('color-thief-node');
 
 module.exports = {
     name: 'accuracy',
-    description: '`??acc [username] [-p {page}]` - Give a list of the best maps to fix accuracy on to make your global accuracy go up faster.',
+    description: `\`${prefix}acc [username] [-p {page}]\` - Give a list of user's best play to fix to increase their global accuracy faster.`,
     async execute(message, args) {
         let filter = 1; // Default page is 1
 

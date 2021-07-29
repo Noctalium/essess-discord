@@ -3,7 +3,7 @@ const { prefix } = require('../../config.json');
 
 module.exports = {
     name: 'mapfeed',
-    description: '`??mapfeed` - Send a message on the channel every time a new ctb beatmap get ranked. Use the command again to remove the mapfeed.',
+    description: `\`${prefix}mapfeed\` - (Server admin only) Turn a channel into a mapfeed channel, newly ranked and loved beatmap will be displayed in this channel.`,
     async execute(message, args) {
         if(!message.member.hasPermission('ADMINISTRATOR')) {
             return message.channel.send(':x: You don\'t have the permissions to do this.')
