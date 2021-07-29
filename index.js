@@ -57,6 +57,8 @@ client.on('message', message => {
     if(command === 'topplay' || command === 'top' || command === 'ctbtop') client.commands.get('topplay').execute(message, args);
 
     if(command === 'mapfeed') client.commands.get('mapfeed').execute(message, args);
+    if(command === 'track') client.commands.get('pp_track').execute(message, args);
+    if(command === 'untrack') client.commands.get('pp_untrack').execute(message, args);
     
     /* TO FIX
     if(command === 'simulator' || command === 'sm') client.commands.get('simulator').execute(message, args);
@@ -67,8 +69,8 @@ client.on('message', message => {
 // Cron job
 // */5 * * * * -> 5min
 
+//------- MAPFEED CRON -------//
 cron.schedule('*/5 * * * *', async () => {
-    // MAPFEED
     let mapfeedChannels = await sqlLib.getAllMapfeedChannels();
 
     if(mapfeedChannels != null) {
@@ -88,6 +90,17 @@ cron.schedule('*/5 * * * *', async () => {
         }
     }
     await sqlLib.updateMapfeedTime();
+});
+
+//------- PP TRACKING CRON -------//
+cron.schedule('*/5 * * * *', async () => {
+    let trackedUsers = await sqlLib.getAllTrackedUsers();
+
+    if(trackedUsers != null) {
+        for(const user of trackedUsers) {
+            await client.commands.get('pp_tracking_msg').execute(user, client);
+        }
+    }
 });
 
 
