@@ -59,6 +59,11 @@ client.on('message', message => {
     if(command === 'mapfeed') client.commands.get('mapfeed').execute(message, args);
     if(command === 'track') client.commands.get('pp_track').execute(message, args);
     if(command === 'untrack') client.commands.get('pp_untrack').execute(message, args);
+
+    if(command === 'finorza') client.commands.get('joke_finorza').execute(message, args);
+    if(command === 'coolest') client.commands.get('joke_coolest').execute(message, args);
+    if(command === 'image' || command === 'envision' || command === 'imagematerial') client.commands.get('joke_image_material').execute(message, args);
+    if(command === 'bison') client.commands.get('joke_bison_charge').execute(message, args);
     
     /* TO FIX
     if(command === 'simulator' || command === 'sm') client.commands.get('simulator').execute(message, args);
