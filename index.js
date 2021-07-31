@@ -41,6 +41,13 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
+    if(message.author.id == ownerId) {
+        if(command === 'migrate') client.commands.get('tracking_migration').execute(message, args);
+        if(command === 'recent' || command === 'rs') client.commands.get('recent_o').execute(message, args);
+    } else {
+        if(command === 'recent' || command === 'rs') client.commands.get('recent').execute(message, args);
+    }
+
     // Commands
     if(command === 'ping') client.commands.get('ping').execute(message);
     if(command === 'roll') client.commands.get('roll').execute(message, args);
@@ -49,7 +56,6 @@ client.on('message', message => {
 
     if(command === 'osuset') client.commands.get('osuset').execute(message, args);
     if(command === 'profile' || command === 'p') client.commands.get('profile').execute(message, args);
-    if(command === 'recent' || command === 'rs') client.commands.get('recent').execute(message, args);
     if(command === '1miss') client.commands.get('1miss').execute(message, args);
     if(command === 'pp') client.commands.get('pp_calculator').execute(message, args);
     if(command === 'misscount' || command === 'mc') client.commands.get('misscount').execute(message, args);
@@ -66,10 +72,6 @@ client.on('message', message => {
     if(command === 'coolest') client.commands.get('joke_coolest').execute(message, args);
     if(command === 'image' || command === 'envision' || command === 'imagematerial') client.commands.get('joke_image_material').execute(message, args);
     if(command === 'bison') client.commands.get('joke_bison_charge').execute(message, args);
-
-    if(message.author.id == ownerId) {
-        if(command === 'migrate') client.commands.get('tracking_migration').execute(message, args);
-    }
 
     /* TO FIX
     if(command === 'simulator' || command === 'sm') client.commands.get('simulator').execute(message, args);

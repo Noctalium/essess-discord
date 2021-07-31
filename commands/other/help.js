@@ -10,7 +10,7 @@ module.exports = {
 
         const hideCmd = ['mapfeed_msg', 'pp_tracking_msg', 'simulator', 'help',
         'joke_bison_charge', 'joke_coolest', 'joke_finorza', 'joke_image_material',
-        'tracking_migration', 'ping'];
+        'tracking_migration', 'ping', 'recent_o'];
 
         let embed = await generateDefaultEmbed(hideCmd, commands);
         return message.channel.send(embed);
