@@ -43,9 +43,6 @@ client.on('message', message => {
 
     if(message.author.id == ownerId) {
         if(command === 'migrate') client.commands.get('tracking_migration').execute(message, args);
-        if(command === 'recent' || command === 'rs') client.commands.get('recent_o').execute(message, args);
-    } else {
-        if(command === 'recent' || command === 'rs') client.commands.get('recent').execute(message, args);
     }
 
     // Commands
@@ -54,6 +51,7 @@ client.on('message', message => {
     if(command === 'changelog') client.commands.get('changelog').execute(message, args);
     if(command === 'help') client.commands.get('help').execute(message, args, client.commands);
 
+    if(command === 'recent' || command === 'rs') client.commands.get('recent').execute(message, args);
     if(command === 'osuset') client.commands.get('osuset').execute(message, args);
     if(command === 'profile' || command === 'p') client.commands.get('profile').execute(message, args);
     if(command === '1miss') client.commands.get('1miss').execute(message, args);
