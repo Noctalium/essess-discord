@@ -9,6 +9,12 @@ module.exports = {
     async execute(message, args) {
         let color = await getColorFromURL('https://cdn.discordapp.com/attachments/383631230685544471/817324506019659776/diff-overdose.png');
         let content = `
+        **v2.0.1 Changelog:**
+
+        **▸** Fixed wrong beatmap URLs with the \`??acc\` command
+
+        ---
+
         **v2.0.0 Changelog:**
 
         **▸** Fixed bugs with the player command (\`${prefix}track (username)\`) where some tracks didn't ever worked
@@ -22,13 +28,6 @@ module.exports = {
         **▸** Optimized the code, to prepare something else big (soontm) 👀
 
         **->** To avoid useless spam, the \`${prefix}track (username)\` command do not allow players with less than **3000pp** to be tracked
-
-        ----------
-
-        v1.5.1 Changelog:
-
-        **+** Added the recent filter for the \`${prefix}top [username]\` command (ex: \`${prefix}top [username] -r\`)
-
         `;
 
         let embed = new Discord.MessageEmbed()

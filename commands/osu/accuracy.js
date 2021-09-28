@@ -86,7 +86,7 @@ async function generateEmbed(scoresDiff, topScores, user, cAccScores, offset = 0
         rankNumber = rankNumber + 1;
 
         let beatmap = await osuApi.getBeatmaps({b: scoresDiff[i].map, m: 2, a:1});
-        let beatmapUrl = `https://osu.ppy.sh/beatmapsets/${beatmap.beatmapSetId}#fruits/${beatmap.id}`;
+        let beatmapUrl = `https://osu.ppy.sh/beatmapsets/${beatmap[0].beatmapSetId}#fruits/${beatmap[0].id}`;
 
         let actualScore = cAccScores.find(el => el.id == beatmap[0].id);
         let actualDropletMissNumber = topScores.find(el => el.beatmapId == beatmap[0].id).counts.katu;
