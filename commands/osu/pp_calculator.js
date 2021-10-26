@@ -54,6 +54,7 @@ async function generateEmbed(beatmap, mods = 0) {
     let emote = await utils.getDifficultyEmotes(beatmap.difficulty.rating);
 
     let umv = getModdedDifficulty(beatmap, mods);
+    console.log(umv);
 
     let warnMsg = '';
     if(mods === 0) warnMsg = 'Please wait for all 6 reactions to pop before changing';
@@ -65,7 +66,7 @@ async function generateEmbed(beatmap, mods = 0) {
         .setColor(color)
         .setDescription(`
         **- Star Rating:**   ${Math.round(beatmap.difficulty.rating*100)/100}★
-        **- Approach Rate:** ${Math.round(umv.ar)}
+        **- Approach Rate:** ${umv.ar}
         **- Circle Size:**   ${Math.round(umv.cs*10)/10}
         **- Health Drain:**  ${Math.round(umv.hp*10)/10}
         **- Max Combo:**     ${beatmap.maxCombo}x
@@ -145,6 +146,7 @@ function getModsFromMsg(message) {
 
 function getModdedDifficulty(beatmap, mods) {
     let ar = beatmap.difficulty.approach;
+    console.log(beatmap);
     let cs = beatmap.difficulty.size;
     let hp = beatmap.difficulty.drain;
 

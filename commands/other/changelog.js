@@ -13,6 +13,8 @@ module.exports = {
 
         **▸** Fixed wrong beatmap URLs with the \`??acc\` command
 
+        **▸** Fixed wrong AR with the \`??pp\` command
+
         ---
 
         **v2.0.0 Changelog:**
