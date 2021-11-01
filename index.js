@@ -30,7 +30,7 @@ for(const [k, val] of Object.entries(commands)) {
 }
     
 client.once('ready', () => {
-    client.user.setActivity('v2.0.1 | ??changelog', { type: 'PLAYING' })
+    client.user.setActivity('v2.0.2 | ??changelog', { type: 'PLAYING' })
     console.log('Ready');
 });
 

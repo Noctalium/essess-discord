@@ -9,11 +9,13 @@ module.exports = {
     async execute(message, args) {
         let color = await getColorFromURL('https://cdn.discordapp.com/attachments/383631230685544471/817324506019659776/diff-overdose.png');
         let content = `
-        **v2.0.1 Changelog:**
+        **v2.0.1 - 2.0.2 Changelog:**
 
         **▸** Fixed wrong beatmap URLs with the \`??acc\` command
 
         **▸** Fixed wrong AR with the \`??pp\` command
+
+        **▸** Fixed the \`??osuset\` command, it works fine now
 
         ---
 
