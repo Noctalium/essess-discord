@@ -34,5 +34,6 @@ async function generateDefaultEmbed(hideCmd, commandsList) {
     )
     .setDescription(description)
     .setColor(await getColorFromURL('https://cdn.discordapp.com/attachments/383631230685544471/817324506019659776/diff-overdose.png'))
-    .setFooter(`{} -> Required | [] -> Optional -- If username is not given, command's author will be the default choice.`);
+    .setFooter(`{} -> Required | [] -> Optional -- If username is not given, command's author will be the default choice.
+    If you have more question, feel free to DM Noctalium#1621`);
 }
