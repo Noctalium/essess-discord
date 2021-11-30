@@ -53,6 +53,7 @@ client.on('message', message => {
 
     if(command === 'recent' || command === 'rs') client.commands.get('recent').execute(message, args);
     if(command === 'osuset') client.commands.get('osuset').execute(message, args);
+    if(command === 'unset') client.commands.get('unset').execute(message, args);
     if(command === 'profile' || command === 'p') client.commands.get('profile').execute(message, args);
     if(command === '1miss') client.commands.get('1miss').execute(message, args);
     if(command === 'pp') client.commands.get('pp_calculator').execute(message, args);
