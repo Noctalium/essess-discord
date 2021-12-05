@@ -74,9 +74,9 @@ async function generateEmbed(beatmap, mods = 0) {
         **> ${await utils.getMods(parseInt(mods))} - Full Combo
          ${warnMsg}**
         `)
-        .addField("100%", `${await utils.getPp(100, beatmap.difficulty.rating, umv.ar, beatmap.maxCombo, mods)}pp`, true)
-        .addField("99.5%", `${await utils.getPp(99.5, beatmap.difficulty.rating, umv.ar, beatmap.maxCombo, mods)}pp`, true)
-        .addField("99%", `${await utils.getPp(99, beatmap.difficulty.rating, umv.ar, beatmap.maxCombo, mods)}pp`, true)
+        .addField("100%", `${await utils.getPp(100, beatmap.difficulty.rating, beatmap.difficulty.approach, beatmap.maxCombo, mods)}pp`, true)
+        .addField("99.5%", `${await utils.getPp(99.5, beatmap.difficulty.rating, beatmap.difficulty.approach, beatmap.maxCombo, mods)}pp`, true)
+        .addField("99%", `${await utils.getPp(99, beatmap.difficulty.rating, beatmap.difficulty.approach, beatmap.maxCombo, mods)}pp`, true)
         .setFooter(`Total playcount: ${beatmap.counts.plays} | ♥ ${beatmap.counts.favourites}`)
 }
 
@@ -146,7 +146,6 @@ function getModsFromMsg(message) {
 
 function getModdedDifficulty(beatmap, mods) {
     let ar = beatmap.difficulty.approach;
-    console.log(beatmap);
     let cs = beatmap.difficulty.size;
     let hp = beatmap.difficulty.drain;
 
