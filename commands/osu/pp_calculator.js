@@ -35,12 +35,12 @@ module.exports = {
         let embed = await generateEmbed(beatmap[0]);
         return message.channel.send(embed)
             .then(async sentMessage => {
-                await sentMessage.react(":HR:782214499163176972") //HR
-                await sentMessage.react(":HD:782214499418898432") //HD
-                await sentMessage.react(":DT:782214499473424414") //DT
-                await sentMessage.react(":EZ:782223187923435520") //EZ
-                await sentMessage.react(":HT:782559906602942476") //HT
-                await sentMessage.react(":FL:782223187898925087") //FL
+                await sentMessage.react(":HR:953364031400456223") //HR
+                await sentMessage.react(":HD:953364031450779658") //HD
+                await sentMessage.react(":DT:953364031333339156") //DT
+                await sentMessage.react(":EZ:953364031329153084") //EZ
+                await sentMessage.react(":HT:953364031417221210") //HT
+                await sentMessage.react(":FL:953364031329157180") //FL
                 ppReaction(message, sentMessage, beatmapId);
             });
     }
