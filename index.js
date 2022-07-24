@@ -92,13 +92,13 @@ cron.schedule('*/5 * * * *', async () => {
         let maps = await osuApi.getBeatmaps({ m:2, since: lastDateCheck});
 
         for(const channel of mapfeedChannels) {
-            let chan = client.channels.cache.get(channel.channel_id);
-
-            if(typeof chan === 'undefined') {
-                await sqlLib.deleteMapfeedChannel(channel.channel_id);
-            }
-            else {
+            try {
+                let chan = await client.channels.fetch(channel.channel_id);
                 await client.commands.get('mapfeed_msg').execute(chan, maps, channel.channel_id);
+            }
+            catch(err) {
+                console.log(`Channel not found (${channel.channel_id})`, err);
+                await sqlLib.deleteMapfeedChannel(channel.channel_id);
             }
         }
     }

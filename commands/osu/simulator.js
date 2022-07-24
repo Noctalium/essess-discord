@@ -58,8 +58,6 @@ module.exports = {
         fcUserBest.sort(function(a, b){return b.pp-a.pp});
         ssUserBest.sort(function(a, b){return b.pp-a.pp});
 
-        console.log(fcUserBest);
-
         let ogGlobalPp = await utils.getGlobalWeightedPp(ogUserBest);
         let fcGlobalPp = await utils.getGlobalWeightedPp(fcUserBest);
         let ssGlobalPp = await utils.getGlobalWeightedPp(ssUserBest);

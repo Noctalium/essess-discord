@@ -54,7 +54,6 @@ async function generateEmbed(beatmap, mods = 0) {
     let emote = await utils.getDifficultyEmotes(beatmap.difficulty.rating);
 
     let umv = getModdedDifficulty(beatmap, mods);
-    console.log(umv);
 
     let warnMsg = '';
     if(mods === 0) warnMsg = 'Please wait for all 6 reactions to pop before changing';
@@ -133,6 +132,11 @@ function getModsFromMsg(message) {
     };
 
     let mods = 0;
+
+    if(!message || !message.reactions) {
+        console.log("Message not found (pp_calculator.js | getModsFromMsg())");
+        return 0;
+    } 
 
     for (let r of message.reactions.cache) {
         if(r && r[1] && osuMods[r[1].emoji.id] && r[1].count > 1) {

@@ -34,13 +34,14 @@ module.exports = {
 
                     for(j = 0; j < channelsArray.length; j++) {
                         if(channelsArray[j] != "") {
-                            let chann = client.channels.cache.get(channelsArray[j]);
-
-                            if(typeof chann === 'undefined') {
+                            try {
+                                let chann = await client.channels.fetch(channelsArray[j]);
+                                chann.send(embed);
+                            }
+                            catch(err){
+                                console.log(`Channel not found (${channelsArray[j]})`, err);
                                 channelsCopy = channelsCopy.replace(`${channelsArray[j]}|`, '');
                                 await sqlLib.updateTrackedUser(user, channelsCopy, 0);
-                            } else {
-                                chann.send(embed);
                             }
                         }
                     }
