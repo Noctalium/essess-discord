@@ -154,34 +154,29 @@ function msgReaction(message, sentMessage, user, topScores, offset = 1) {
             clearTimeout(timeout);
         }
         timeout = setTimeout(async () => {
-            if(sentMessage && sentMessage.reactions) {    
-                for(let r of sentMessage.reactions.cache) {
-                    if(r && r[1] && r[1].count > 1) {
-                        // Min page : 0
-                        if(r[1].emoji.name == '◀️') {
-                            // Previous page
-                            if(offset > 1) offset = offset - 1;
-                        }
-                        if(r[1].emoji.name == '▶️' || (r[1].emoji.name == '◀️' && r[1].emoji.name == '▶️')) {
-                            // Next page
-                            if(offset < 20) offset = offset + 1;
-                        }
+            for(let r of sentMessage.reactions.cache) {
+                if(r && r[1] && r[1].count > 1) {
+                    // Min page : 0
+                    if(r[1].emoji.name == '◀️') {
+                        // Previous page
+                        if(offset > 1) offset = offset - 1;
+                    }
+                    if(r[1].emoji.name == '▶️' || (r[1].emoji.name == '◀️' && r[1].emoji.name == '▶️')) {
+                        // Next page
+                        if(offset < 20) offset = offset + 1;
                     }
                 }
-                let userReactions = sentMessage.reactions.cache.filter(reac => reac.users && reac.users.cache.has(message.author.id));
-                try {
-                    for(const react of userReactions.values()) {
-                        await react.users.remove(message.author.id);
-                    }
-                } catch (err) {
-                    console.log('error', err);
-                }
-                let embed = await generateEmbed(user, topScores, false, offset);
-                sentMessage.edit(embed);
             }
-            else {
-                console.log("Message not found (topplay.js)");
-            } 
+            let userReactions = sentMessage.reactions.cache.filter(reac => reac.users.cache.has(message.author.id));
+            try {
+                for(const react of userReactions.values()) {
+                    await react.users.remove(message.author.id);
+                }
+            } catch (err) {
+                console.log('error');
+            }
+            let embed = await generateEmbed(user, topScores, false, offset);
+            sentMessage.edit(embed);
         }, 1000);
     }
 
