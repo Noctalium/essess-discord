@@ -64,11 +64,11 @@ async function generateEmbed(beatmap, mods = 0) {
         .setThumbnail(beatmapThumbnailUrl)
         .setColor(color)
         .setDescription(`
-        **- Star Rating:**   ${Math.round(beatmap.difficulty.rating*100)/100}★
-        **- Approach Rate:** ${umv.ar}
-        **- Circle Size:**   ${Math.round(umv.cs*10)/10}
-        **- Health Drain:**  ${Math.round(umv.hp*10)/10}
-        **- Max Combo:**     ${beatmap.maxCombo}x
+        **\- Star Rating:**   ${Math.round(beatmap.difficulty.rating*100)/100}★
+        **\- Approach Rate:** ${umv.ar}
+        **\- Circle Size:**   ${Math.round(umv.cs*10)/10}
+        **\- Health Drain:**  ${Math.round(umv.hp*10)/10}
+        **\- Max Combo:**     ${beatmap.maxCombo}x
     
         **> ${await utils.getMods(parseInt(mods))} - Full Combo
          ${warnMsg}**

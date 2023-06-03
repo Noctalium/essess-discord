@@ -43,10 +43,10 @@ async function generateEmbed(user) {
     .setThumbnail(profilePic)
     .setColor(color)
     .setDescription(`
-    **- Rank:** #${user.pp.rank} (${user.country}#${user.pp.countryRank})
-    **- Raw PP:** ${user.pp.raw}
-    **- Accuracy:** ${Math.round(user.accuracy*10000) / 10000}%
-    **- Playcount:** ${user.counts.plays}
+    **\- Rank:** #${user.pp.rank} (${user.country}#${user.pp.countryRank})
+    **\- Raw PP:** ${user.pp.raw}
+    **\- Accuracy:** ${Math.round(user.accuracy*10000) / 10000}%
+    **\- Playcount:** ${user.counts.plays}
 
     **${await utils.getRankEmotes('XH')} ${user.counts.SSH} | ${await utils.getRankEmotes('X')} ${user.counts.SS} | ${await utils.getRankEmotes('SH')} ${user.counts.SH} | ${await utils.getRankEmotes('S')} ${user.counts.S}**
 

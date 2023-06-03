@@ -98,7 +98,7 @@ async function generateEmbed(scoresDiff, topScores, user, cAccScores, offset = 0
 
         let tmp = `
         **${rankNumber}. [${beatmap[0].title} [${beatmap[0].version}]](${beatmapUrl})** [${Math.round(beatmap[0].difficulty.rating*100)/100}★] + **${await utils.getMods(actualPlayMods)}**
-        **-** Actual acc: ${Math.round(accuracy * 100) / 100}% | ${actualDropletMissNumber} drop(s) miss(es), ${actualMissNumber} miss(es).
+        **\-** Actual acc: ${Math.round(accuracy * 100) / 100}% | ${actualDropletMissNumber} drop(s) miss(es), ${actualMissNumber} miss(es).
         ** ► Global acc after SS: ${Math.round(newGlobalAcc * 10000) / 10000}%**
         `;
 
