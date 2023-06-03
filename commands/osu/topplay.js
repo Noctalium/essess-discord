@@ -115,8 +115,8 @@ async function generateEmbed(user, topScores, recentFilter, offset = 1) {
 
         let tmp = `
         **${rankNumber}. [${beatmap.title} [${beatmap.version}]](${beatmapUrl})** [${Math.round(beatmap.difficulty.rating*100)/100}★] ${enabledMods}
-        \- ${rankEmote} ▸ **${Math.round((score.pp)*100)/100}pp** ▸ ${Math.round((accuracy)*100)/100} | ${score.raw_date.substring(0,10)}
-        \- ${score.score} ▸ ${maxCombo} | Miss: ${score.counts.miss}, Dropmiss: ${score.counts.katu}
+        \\- ${rankEmote} ▸ **${Math.round((score.pp)*100)/100}pp** ▸ ${Math.round((accuracy)*100)/100} | ${score.raw_date.substring(0,10)}
+        \\- ${score.score} ▸ ${maxCombo} | Miss: ${score.counts.miss}, Dropmiss: ${score.counts.katu}
         `;
 
         content += tmp;
